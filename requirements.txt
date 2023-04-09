@@ -1,0 +1,5 @@
+pymongo==4.3.3
+pandas==1.5.3
+psycopg2-binary==2.9.5
+sqlalchemy==1.4.47
+apache-airflow==2.5.2
