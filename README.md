@@ -153,3 +153,9 @@ Les instructions suivantes permettent de configurer l'environnement de travail e
 ### **Licence**
 
 *Données mises à disposition par <a href="https://blent.ai">Blent.ai</a>. Les données utilisées pour ce projet peuvent être soumises à des droits d'auteur et de propriété intellectuelle. Blent.ai ne peut être responsable des utilisations faites des données utilisées dans le cadre de ce projet.*
+
+<br/>
+
+### **Contact**
+
+Pour toute question liée au projet, voici l'adresse mail de contact : [mohamedrkheroua@gmail.com](mailto:mohamedrkheroua@gmail.com)
