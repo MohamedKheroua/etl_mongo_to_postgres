@@ -53,7 +53,7 @@ Les instructions suivantes permettent de configurer l'environnement de travail e
 1. Cloner le projet Git
 
 	```
-	git clone https://github.com/
+	git clone https://github.com/MohamedKheroua/etl_mongo_to_postgres
 	```
 
 2. Installer les clients MongoDB et PostgreSQL
@@ -70,18 +70,17 @@ Les instructions suivantes permettent de configurer l'environnement de travail e
 
 		Le fichier YAML `docker-compose.yml` du dossier `mongodb` permet de déploier facilement les deux containers Docker.
 
-	<br />
-
 	- PostgreSQL
 
 		Les packages d'installation sont disponibles à cette <a href="https://www.postgresql.org/download/">adresse</a>.
 
 		On pourra également installer <a href="https://www.pgadmin.org/">pgAdmin</a> qui est un outil opensource d'administration des bases de données PostgreSQL.
 
+<br />
 
 3. Installer les dépendances du fichier `requirements.txt` dans un environnement virtuel
 
-	*Linux / MacOS / WSL*
+	*Linux / MacOS / WSL2*
 	```
 	python3 -m venv venv/
 	source venv/bin/activate
@@ -93,6 +92,16 @@ Les instructions suivantes permettent de configurer l'environnement de travail e
 	C:\<chemin_dossir>\venv\Scripts\activate.bat
 	pip install -r requirements.txt
 	```
+	
+	*Remarque :*
+
+	*Pour les machines sous Windows, on pourra utiliser :*
+	
+	- *<a href="https://code.visualstudio.com/download">Visual Studio Code</a> en tant qu'IDE*
+
+	- *couplé à <a href="https://learn.microsoft.com/fr-fr/windows/wsl/install">WSL2</a> (qui permet d'installer facilement une distribution Linux et d'utiliser les outils en ligne de commande Bash directement sous Windows, sans passer par une machine virtuelle)*
+
+<br />
 
 4. Paramétrage d'Apache Airflow
 
@@ -106,35 +115,39 @@ Les instructions suivantes permettent de configurer l'environnement de travail e
 
 ### **Démarrage**
 
-- #### **Création de la base de données dans MongoDB**
+- #### Création de la base de données dans MongoDB
  
-	On pourra utiliser le client web mongo-express pour créer notre base de données et la collection que l'on utilisera par la suite.
+	- On pourra utiliser le client web mongo-express pour créer notre base de données et la collection que l'on utilisera par la suite.
 
-	L'URL d'accès (par défaut) en local est la suivante : <a href="http://localhost:8081/">localhost:8081</a>
+	- L'URL d'accès (par défaut) en local est la suivante : <a href="http://localhost:8081/">localhost:8081</a>
 
-- #### **Ingestion des données brutes dans MongoDB**
+- #### Ingestion des données brutes dans MongoDB
 
-	Les données brutes compressées peuvent être récupérées à cette <a href="https://drive.google.com/file/d/1bJoEcxSQ-t64NRz8a6tYX46TpZVBzWsk/view?usp=sharing">adresse</a>.
+	- Les données brutes compressées peuvent être récupérées à cette <a href="https://drive.google.com/file/d/1bJoEcxSQ-t64NRz8a6tYX46TpZVBzWsk/view?usp=sharing">adresse</a>.
 
-	Elles seront utilisées pour alimenter la base de données MongoDB avec le script `raw_data_ingestion.py` .
+	- Elles seront utilisées pour alimenter la base de données MongoDB avec le script `raw_data_ingestion.py` .
 
-- #### **Création de la base de données cible dans PostgreSQL**
+- #### Création de la base de données cible dans PostgreSQL
 	
-	On pourra utiliser pgAdmin pour créer notre base de données.
+	- On pourra utiliser pgAdmin pour créer notre base de données.
 	
-- #### **ETL MongoDB vers PostgreSQL**
+- #### ETL MongoDB vers PostgreSQL
 
-	On pourra dans un premier temps utiliser le script `raw_data_ingestion.py` pour tester le pipeline.
+	- On pourra dans un premier temps utiliser le script `raw_data_ingestion.py` pour tester le pipeline.
 
-	En complément des variables d'environnement spécifiées dans le fichier de configuration `database.ini` du dossier `config`, les variables d'environnement `MONGODB_USERNAME` et `MONGODB_PASSWORD` sont utilisées pour accéder aux bases de données MongoDB, ces deux dernières ayant les valeurs par défaut spécifiées dans le fichier YAML `docker-compose.yml` (à modifier si besoin).
+	- En complément des variables d'environnement spécifiées dans le fichier de configuration `database.ini` du dossier `config`, les variables d'environnement `MONGODB_USERNAME` et `MONGODB_PASSWORD` sont utilisées pour accéder aux bases de données MongoDB, ces deux dernières ayant les valeurs par défaut spécifiées dans le fichier YAML `docker-compose.yml` (valeurs à modifier si besoin).
 
-	Il faudra penser à créer toutes les variables d'environnement utilisées dans le projet avant de lancer les scripts Python (ou modifier le code).
+	- Il faudra penser à créer toutes les variables d'environnement utilisées dans le projet avant de lancer les scripts Python.
 
 - #### **Automatisation avec Airflow**
 
 	Deux DAG Airflow sont disponibles pour automatiser le lancement quotidien des pipelines ETL :
 
-		- ttes
+	- `dag_etl_all_top_15_video_games_reviews.py` : ce workflow conserve l'historique des jeux les mieux notés en ajoutant tous les jours dans la table PostgreSQL les 15 jeux les mieux notés depuis 6 mois. Les doublons ne sont pas pas conservés (mise à jour avec la note moyenne la plus récente)
+
+	- `dag_etl_all_top_15_video_games_reviews.py` : ce workflow écrase la table PostgreSQL tous les jours avec les 15 meilleurs jeux notés depuis 6 mois
+
+<br/>
 
 ### **Licence**
 
