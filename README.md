@@ -28,6 +28,7 @@ Les données brutes sont stockées dans une base MongoDB et il est supposé que 
 
 Le dépôt Git contient les éléments suivantes.
 
+- `airflow/` contient la procédure d'installation d'Apache Airflow
 - `data/` contient les données du projet
 - `src/` contient les codes sources Python principaux du projet
 - `mongodb/` contient le fichier YAML de configuration pour le déploiement des containers Docker
@@ -105,7 +106,7 @@ Les instructions suivantes permettent de configurer l'environnement de travail e
 
 4. Paramétrage d'Apache Airflow
 
-	Apache Airflow est utilisé sur le projet pour automatiser les pipelines de données. La version utilisée est spécifiée dans le fichier `requirements.txt` .
+	Apache Airflow est utilisé dans ce projet pour automatiser les pipelines de données. La version utilisée est la version 2.5.2 .
 
 	Avant de pouvoir l'utiliser pour exécuter nos workfows, un minimum de paramétrage sera nécessaire.
 

@@ -10,7 +10,7 @@ On pourra suivre cette procédure pour installer et paramétrer Airflow avant la
 
 ### **Configuration de l'environnement de travail**
 
-Les instructions suivantes permettent de configurer l'environnement de travail et de créer un envi le projet sur sa machine.
+Les instructions suivantes permettent de configurer l'environnement de travail pour Airflow sur sa machine.
 
 ### Pré-requis
 
@@ -42,12 +42,10 @@ Les instructions suivantes permettent de configurer l'environnement de travail e
 
 3. Activer l'environnement virtuel et y installer Airflow
 
-    Il faudra copier le fichier `requirements.txt` dans le dossier avant de pouvoir installer les dépendances :
-
     ```
     source venv/bin/activate
     pip install --upgrade pip
-    pip install -r requirements.txt
+    pip install apache-airflow==2.5.2
     ```
 
 4. Créer le dossier Airflow
@@ -130,7 +128,7 @@ Les instructions suivantes permettent de configurer l'environnement de travail e
 
 12. Ouvrir deux nouveaux terminaux pour lancer les deux scripts `scheduler.sh` et `webserver.sh`
 
-    On active l'environnement virtuel dans les deux nouveaux terminaux avant d'exécuter les scripts :
+    On activera l'environnement virtuel dans les deux nouveaux terminaux avant d'exécuter les scripts :
 
     Pour le premer terminal :
 
@@ -139,31 +137,13 @@ Les instructions suivantes permettent de configurer l'environnement de travail e
     ./scheduler.sh
     ```
 
-    Pour le deuxième terminal :
-
-    ```
-    source venv/bin/activate
-    ./webserver.sh
-    ```
-
-13. Ouvrir deux nouveaux terminaux pour lancer les deux scripts `scheduler.sh` et `webserver.sh`
-
-    On active l'environnement virtuel dans les deux nouveaux terminaux avant d'exécuter les scripts :
-
-    Pour le premer terminal :
-
-    ```
-    source venv/bin/activate
-    ./scheduler.sh
-    ```
-
-    Si tout a fonctionné, l'accès à l'interface administrateur d'Airflow est disponible depuis <a href="http://localhost:8080">cette adresse</a>.
+    Si tout a fonctionné, l'accès à l'interface administrateur d'Airflow sera disponible depuis <a href="http://localhost:8080">cette adresse</a>.
 
     On pourra y voir tous les exemples de DAGs présents par défaut.
 
 <br/>
 
-14. Créer un nouveau dossier `dags` dans le dossier `airflow`
+13. Créer un nouveau dossier `dags` dans le dossier `airflow`
 
     Ce dossier contiendra tous nos futurs DAGs :
 
@@ -171,23 +151,26 @@ Les instructions suivantes permettent de configurer l'environnement de travail e
     mkdir dags
     ```
 
-    Lors du prochain lancement du scheduler, les DAGs ajoutés dans ce dossier seront visibles depuis l'interface web, avec les DAGs présents par défaut.
+    Lors du prochain lancement du scheduler, les DAGs ajoutés dans ce dossier seront visibles avec les DAGs présents par défaut depuis l'interface web.
 
 <br/>
 
-15. Commandes pour lancer un DAG
+14. Commandes pour lancer un DAG
 
-    On pourra utiliser les backfills pour lancer nos DAGs. Par exemple, si on exécute le backfill suivant :
+    On exécutera nos worklows depuis un nouveau terminal (en pensant à activant l'environnement virtuel).
+
+    On pourra utiliser les backfills pour lancer nos DAGs sur une période donnée. Par exemple, si on exécute le backfill suivant :
 
     ```
     airflow dags backfill mon_exemple_de_dag -s 2023-04-01 -e 2023-04-03
     ```
 
-    le DAG `mon_exemple_de_dag` sera exécuté entre le 01/04/2023 (paramètre `-s` pour "start") et le 03/04/2023 (paramètre `-e` pour "end") : il y aura donc trois exécutions.
+    le DAG `mon_exemple_de_dag` sera exécuté entre le 01/04/2023 (paramètre -s pour "start") et le 03/04/2023 (paramètre -e pour "end") ; il y aura au total trois exécutions.
 
-    On peut également nettoyer un backfill, en spécifiant la fenêtre temporelle visée. Par exemple :
+    On peut également nettoyer un backfill, en spécifiant la fenêtre temporelle visée. Par exemple, la commande :
 
     ```
-    airflow tasks clear mon_exemple_de_dag -s 2023-04-02 -e 2023-04-02
+    airflow tasks clear mon_exemple_de_dag -s 2023-04-01 -e 2023-04-02
     ```
 
+    supprimera les tâches effectuées du 01/04/2023 au 02/04/2023 inclus.
